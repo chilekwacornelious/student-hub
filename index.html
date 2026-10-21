@@ -1,0 +1,988 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Mukuba University Student Opportunity Hub</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Schibsted+Grotesk:wght@400..700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm column on phones. The timetable form feeds a ranked match list;
+   the full job board with filters sits below it. The hero week grid shows where lectures end and work can start. */
+:root {
+  --bg: #F2F5F1;
+  --surface: #FFFFFF;
+  --ink: #12261D;
+  --muted: #4F6358;
+  --line: #D5DED6;
+  --accent: #0B7A5A;
+  --accent-ink: #FFFFFF;
+  --soft: #E3EEE7;
+  --copper: #A8521F;
+  --copper-soft: #F6E6DB;
+  --warn: #8A5A00;
+  --warn-soft: #FBF0D6;
+  --danger: #A32A2A;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1612; --surface: #15231C; --ink: #E7F0EA; --muted: #9DB3A6; --line: #263A2F;
+    --accent: #3DBE93; --accent-ink: #07251B; --soft: #1B3228; --copper: #E0925F; --copper-soft: #33211A;
+    --warn: #E6B85C; --warn-soft: #2F2713; --danger: #F08A8A; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1612; --surface: #15231C; --ink: #E7F0EA; --muted: #9DB3A6; --line: #263A2F;
+  --accent: #3DBE93; --accent-ink: #07251B; --soft: #1B3228; --copper: #E0925F; --copper-soft: #33211A;
+  --warn: #E6B85C; --warn-soft: #2F2713; --danger: #F08A8A; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.5;
+  padding-block: 0 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1120px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.1; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.eyebrow { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+
+.bar { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; justify-content: space-between; padding-block: 16px; border-bottom: 1px solid var(--line); }
+.brand { font-family: var(--f-display); font-weight: 700; font-size: 17px; }
+.brand small { display: block; font-family: var(--f-body); font-weight: 400; font-size: 12px; color: var(--muted); }
+.nav { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; }
+.nav a { color: var(--ink); text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; }
+.nav a:hover { border-color: var(--accent); }
+
+.hero { display: grid; gap: 28px; padding-block: 36px 28px; grid-template-columns: minmax(0, 1fr); }
+.hero h1 { font-size: clamp(32px, 7.5vw, 56px); font-weight: 800; max-width: 16ch; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lead { margin-top: 14px; color: var(--muted); max-width: 52ch; font-size: 17px; }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.btn { font: inherit; font-weight: 600; font-size: 15px; border-radius: 10px; padding: 11px 18px; border: 1.5px solid var(--accent); background: var(--accent); color: var(--accent-ink); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.small { min-height: 38px; padding: 6px 13px; font-size: 14px; }
+.btn:hover { filter: brightness(1.06); }
+
+.week { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.week h2 { font-size: 15px; font-family: var(--f-body); font-weight: 600; letter-spacing: 0; }
+.wk-grid { display: grid; grid-template-columns: 74px repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 12px; font-size: 11px; }
+.wk-grid .h { text-align: center; color: var(--muted); font-weight: 600; padding-bottom: 2px; }
+.wk-grid .r { color: var(--muted); align-self: center; font-size: 11px; }
+.wk-grid .c { height: 30px; border-radius: 5px; }
+.c.lec { background: repeating-linear-gradient(135deg, var(--line) 0 4px, transparent 4px 8px); border: 1px solid var(--line); }
+.c.open { background: var(--soft); border: 1px solid var(--accent); }
+.wk-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: 13px; color: var(--muted); }
+.wk-key span::before { content: ""; display: inline-block; width: 14px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.wk-key .k-lec::before { background: repeating-linear-gradient(135deg, var(--line) 0 3px, transparent 3px 6px); border: 1px solid var(--line); }
+.wk-key .k-open::before { background: var(--soft); border: 1px solid var(--accent); }
+.notice { background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 10px 14px; font-size: 14px; }
+
+section { padding-top: 44px; }
+.sec-head { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+.sec-head h2 { font-size: clamp(24px, 4.5vw, 32px); font-weight: 750; }
+.sec-head p { color: var(--muted); max-width: 56ch; }
+
+/* shared controls */
+.field { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; min-width: 0; }
+label, .lbl { font-size: 13px; font-weight: 600; color: var(--muted); }
+input[type="text"], input[type="search"], input[type="number"], input[type="date"], input[type="time"], select, textarea {
+  font: inherit; font-size: 16px; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 9px; padding: 10px 12px; width: 100%; min-height: 44px; min-width: 0;
+}
+textarea { min-height: 88px; resize: vertical; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: 14px; font-weight: 500; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); border-radius: 999px; padding: 7px 14px; cursor: pointer; min-height: 38px; }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; font-weight: 500; color: var(--ink); cursor: pointer; }
+.check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); flex: none; }
+.f-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.msg { font-size: 14px; color: var(--accent); font-weight: 600; }
+.linkbtn { font: inherit; font-size: 14px; font-weight: 600; background: none; border: 0; color: var(--muted); cursor: pointer; padding: 8px 6px; min-height: 36px; text-decoration: underline; text-underline-offset: 3px; }
+.badge { font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 9px; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.badge.ok { background: var(--soft); color: var(--accent); }
+.badge.cat { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.badge.exam { background: var(--copper-soft); color: var(--copper); }
+.badge.fit { background: var(--accent); color: var(--accent-ink); }
+.badge.new { background: var(--copper); color: var(--surface); }
+.badge.soon { background: var(--warn-soft); color: var(--warn); }
+.badge.strong { background: var(--accent); color: var(--accent-ink); }
+.badge.potential { background: var(--warn-soft); color: var(--warn); }
+.badge.confirm { background: var(--copper-soft); color: var(--copper); }
+
+/* timetable profile */
+.profile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.profile h3 { font-size: 20px; }
+.privacy { color: var(--muted); font-size: 14px; margin-top: 6px; max-width: 64ch; }
+.days { display: grid; gap: 10px; margin-top: 14px; grid-template-columns: minmax(0, 1fr); }
+.day { border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 12px; display: grid; gap: 10px; background: var(--bg); min-width: 0; }
+.day.on { border-color: var(--accent); background: var(--soft); }
+.day-head { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.day-name { font-weight: 700; }
+.times { display: flex; gap: 8px 12px; flex-wrap: wrap; align-items: flex-end; }
+.times .tf { display: flex; flex-direction: column; gap: 4px; flex: 1 1 110px; min-width: 0; }
+.hint { font-size: 13px; color: var(--warn); }
+.pgrid { display: grid; gap: 0 16px; grid-template-columns: minmax(0, 1fr); margin-top: 6px; }
+.payrow { display: grid; gap: 8px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+/* results */
+.res-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; margin: 22px 0 10px; }
+.res-head h3 { font-size: 22px; }
+#mcount { color: var(--muted); font-size: 14px; }
+.list { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+.job { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.job.reported { opacity: 0.7; }
+.job-head { display: flex; gap: 12px; justify-content: space-between; align-items: flex-start; }
+.job h3 { font-size: 20px; font-weight: 700; }
+.emp { color: var(--muted); font-size: 14px; margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+.save { font: inherit; font-size: 13px; font-weight: 600; background: transparent; color: var(--ink); border: 1.5px solid var(--line); border-radius: 9px; padding: 7px 11px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; flex: none; min-height: 38px; }
+.save[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); background: var(--soft); }
+.save svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+.save[aria-pressed="true"] svg { fill: currentColor; }
+.pay { font-family: var(--f-display); font-weight: 700; font-size: 19px; color: var(--accent); }
+.sched { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.dstrip { display: flex; gap: 3px; }
+.dstrip span { width: 24px; height: 24px; display: inline-grid; place-items: center; font-size: 11px; font-weight: 600; border-radius: 6px; background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.dstrip span.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.when { font-family: var(--f-mono); font-size: 13px; color: var(--ink); overflow-wrap: anywhere; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; margin: 0; font-size: 14px; }
+.facts div { min-width: 0; }
+.facts dt { font-size: 12px; color: var(--muted); font-weight: 600; }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.job-actions { display: flex; flex-wrap: wrap; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+.panel { border-top: 1px dashed var(--line); padding-top: 12px; display: grid; gap: 10px; font-size: 15px; }
+.panel h4 { margin: 0; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.panel p { max-width: 62ch; }
+.reportbox { background: var(--bg); border-radius: 10px; padding: 12px; display: grid; gap: 10px; }
+.empty { background: var(--surface); border: 1.5px dashed var(--line); border-radius: 14px; padding: 28px 20px; text-align: center; display: grid; gap: 10px; justify-items: center; }
+.empty h3 { font-size: 20px; }
+.empty p { color: var(--muted); max-width: 46ch; }
+.empty .chips { justify-content: center; }
+
+.matchbox { background: var(--bg); border-radius: 10px; padding: 12px; display: grid; gap: 10px; }
+.mh { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.score { font-family: var(--f-mono); font-weight: 500; font-size: 14px; }
+.why, .ask { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; font-size: 14px; }
+.why li, .ask li { padding-left: 24px; position: relative; }
+.why li::before { content: "\2713"; position: absolute; left: 2px; color: var(--accent); font-weight: 700; }
+.ask li::before { content: "?"; position: absolute; left: 4px; color: var(--warn); font-weight: 700; font-family: var(--f-mono); }
+.ask-h { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warn); }
+.bk summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); min-height: 32px; display: flex; align-items: center; }
+.bk .row { display: grid; grid-template-columns: minmax(0, 1fr) 54px; gap: 4px 10px; font-size: 13px; margin-top: 8px; align-items: center; }
+.bk .row b { font-family: var(--f-mono); font-weight: 500; text-align: right; }
+.bk .track { grid-column: 1 / -1; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.bk .track i { display: block; height: 100%; background: var(--accent); }
+.bk .note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+.left { margin-top: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; }
+.left summary { cursor: pointer; font-weight: 600; font-size: 15px; padding: 10px 0; min-height: 44px; display: flex; align-items: center; }
+.left ul { margin: 0 0 12px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 14px; }
+.left li span { display: block; color: var(--muted); }
+.fine { font-size: 13px; color: var(--muted); margin-top: 10px; }
+.alertbar { background: var(--soft); border-radius: 12px; padding: 14px 16px; margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; }
+.alertbar p { font-size: 14px; max-width: 56ch; }
+
+/* browse */
+.browse { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+.filters { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 16px 16px; }
+.filters summary { cursor: pointer; font-weight: 700; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; align-items: center; min-height: 44px; }
+.filters summary::-webkit-details-marker { display: none; }
+.filters summary::after { content: "+"; font-size: 20px; color: var(--accent); }
+.filters[open] summary::after { content: "\2212"; }
+.results-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.tabs { display: inline-flex; border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.tab { font: inherit; font-weight: 600; font-size: 14px; border: 0; background: transparent; color: var(--ink); padding: 9px 16px; cursor: pointer; min-height: 42px; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); }
+#count { color: var(--muted); font-size: 14px; }
+.sort { display: flex; align-items: center; gap: 8px; }
+.sort select { width: auto; min-height: 40px; padding: 6px 10px; font-size: 14px; }
+
+/* employer */
+.form { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: grid; gap: 4px; }
+.grid2 { display: grid; gap: 0 16px; grid-template-columns: minmax(0, 1fr); }
+fieldset { border: 0; padding: 0; margin: 12px 0 0; min-width: 0; }
+legend { padding: 0; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
+.req::after { content: " *"; color: var(--copper); }
+.shift { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; margin-bottom: 8px; }
+.summary { margin-top: 16px; background: var(--bg); border: 1.5px solid var(--accent); border-radius: 12px; padding: 16px; display: grid; gap: 10px; }
+.summary pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--f-mono); font-size: 13px; line-height: 1.6; }
+.rules { display: grid; gap: 10px; margin-top: 16px; padding: 0; list-style: none; }
+.rules li { color: var(--muted); font-size: 15px; padding-left: 18px; position: relative; }
+.rules li::before { content: ""; position: absolute; left: 0; top: 9px; width: 8px; height: 8px; border-radius: 2px; background: var(--accent); }
+
+.safety { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+.safety > div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+.safety h3 { font-size: 17px; margin-bottom: 6px; }
+.safety p { color: var(--muted); font-size: 15px; }
+footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+footer .core { font-family: var(--f-display); font-weight: 700; font-size: clamp(20px, 4vw, 26px); max-width: 28ch; }
+footer small { color: var(--muted); }
+
+@media (min-width: 640px) {
+  .grid2, .pgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .safety { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .days { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: center; gap: 40px; padding-block: 52px 36px; }
+  .browse { grid-template-columns: 290px minmax(0, 1fr); gap: 24px; }
+  .filters { position: sticky; top: 16px; }
+}
+@media (max-width: 420px) {
+  .shift { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .shift .s-d { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .chip, .save, .day { transition: background-color .15s, border-color .15s, color .15s; }
+}
+</style>
+
+<div class="wrap">
+  <header class="bar">
+    <div class="brand">Mukuba University<small>Student Opportunity Hub</small></div>
+    <nav class="nav" aria-label="Sections">
+      <a href="#match">Fit my timetable</a>
+      <a href="#jobs">All jobs</a>
+      <a href="#employers">For employers</a>
+      <a href="#safety">Stay safe</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <p class="eyebrow">Part-time jobs for students</p>
+      <h1 style="margin-top:10px">Earn an income without <em>leaving your education</em> behind.</h1>
+      <p class="lead">Tell us when you are free. We match you with checked employers whose shifts fit around your lectures, study time and exams.</p>
+      <div class="cta">
+        <a class="btn" href="#match">Find jobs that fit my timetable</a>
+        <a class="btn ghost" href="#jobs">Browse all jobs</a>
+      </div>
+    </div>
+    <div class="week" aria-labelledby="wk-title">
+      <h2 id="wk-title">Where part-time work fits in a typical week</h2>
+      <div class="wk-grid" id="wk" role="img" aria-label="Example week: lectures fill weekday mornings. Afternoons, evenings and weekends are open for work."></div>
+      <div class="wk-key"><span class="k-lec">Lectures (example)</span><span class="k-open">Open for work</span></div>
+    </div>
+  </div>
+
+  <p class="notice" role="note">Prototype with example listings. The employers, pay rates and deadlines on this page are illustrations, not real vacancies.</p>
+
+  <section id="match" aria-labelledby="match-h">
+    <div class="sec-head">
+      <h2 id="match-h">Find jobs that fit my timetable</h2>
+      <p>Your studies come first. Find work that fits your life.</p>
+    </div>
+
+    <div class="profile">
+      <h3>Your availability</h3>
+      <p class="privacy" id="p-note"></p>
+      <p class="privacy">Choosing a day does not mean you are free all day. Add the hours you can really work. Your timetable stays on this device and is not sent anywhere.</p>
+      <div class="days" id="days"></div>
+
+      <div class="pgrid">
+        <div class="field"><label for="p-max">Maximum hours per week</label><input type="number" id="p-max" min="1" max="40" inputmode="numeric"></div>
+        <div class="field"><label for="p-sched">Preferred schedule</label>
+          <select id="p-sched"><option value="flexible">Flexible hours</option><option value="fixed">Fixed shifts</option><option value="any">No preference</option></select></div>
+        <div class="field"><label for="p-arr">Work arrangement</label>
+          <select id="p-arr"><option value="Any">Any: on-site, remote or hybrid</option><option>On-site</option><option>Remote</option><option>Hybrid</option></select></div>
+        <div class="field"><label for="p-loc">Preferred location</label><select id="p-loc"></select></div>
+        <div class="field"><label for="p-pay">Minimum acceptable pay (Zambian kwacha, optional)</label>
+          <div class="payrow"><input type="number" id="p-pay" min="0" inputmode="numeric" placeholder="K"><select id="p-per" aria-label="Payment period"><option value="hour">per hour</option><option value="day">per day</option><option value="month">per month</option></select></div></div>
+      </div>
+
+      <div class="field"><span class="lbl" id="l-cats">Job categories you like (leave empty for all)</span><div class="chips" id="p-cats" role="group" aria-labelledby="l-cats"></div></div>
+      <div class="field"><span class="lbl" id="l-skills">Your skills (optional)</span><div class="chips" id="p-skills" role="group" aria-labelledby="l-skills"></div></div>
+      <div class="field"><label for="p-exp">Experience (optional)</label><input type="text" id="p-exp" placeholder="For example, helped at my aunt's shop on weekends"></div>
+      <div class="pgrid">
+        <div class="field"><label for="p-ufrom">Unavailable from (exams or other commitments)</label><input type="date" id="p-ufrom"></div>
+        <div class="field"><label for="p-uto">Unavailable until</label><input type="date" id="p-uto"></div>
+      </div>
+      <div class="f-actions">
+        <button type="button" class="btn small ghost" id="p-example">Load example student</button>
+        <button type="button" class="btn small ghost" id="p-clear">Clear my profile</button>
+        <a class="btn small" href="#matches">See my matches</a>
+      </div>
+    </div>
+
+    <div class="res-head" id="matches"><h3>Your matches</h3><p id="mcount" role="status" aria-live="polite"></p></div>
+    <div class="list" id="mlist"></div>
+    <details class="left" id="left" hidden><summary id="left-s"></summary><ul id="left-l"></ul></details>
+    <p class="fine" id="left-n"></p>
+    <div class="alertbar">
+      <p id="alert-t">Alerts tell you when a newly posted job fits your timetable. Email and SMS alerts need the live hub, so for now matches are marked on this page.</p>
+      <button type="button" class="btn small" id="alert-btn" aria-pressed="false">Alert me about new matches</button>
+    </div>
+  </section>
+
+  <section id="jobs" aria-labelledby="jobs-h">
+    <div class="sec-head">
+      <h2 id="jobs-h">All part-time jobs</h2>
+      <p>Browse every active, verified listing and filter by day, time, place and how you want to work.</p>
+    </div>
+    <div class="browse">
+      <details class="filters" id="filters">
+        <summary>Search and filters</summary>
+        <div class="field"><label for="q">Search</label><input type="search" id="q" placeholder="Job title or employer"></div>
+        <div class="field"><label for="cat">Category</label><select id="cat"><option value="">All categories</option></select></div>
+        <div class="field"><label for="loc">Location</label><select id="loc"><option value="">All locations</option></select></div>
+        <div class="field"><span class="lbl" id="l-days">Days</span><div class="chips" role="group" aria-labelledby="l-days" id="day-chips"></div></div>
+        <div class="field"><span class="lbl" id="l-time">Time of day</span><div class="chips" role="group" aria-labelledby="l-time" id="time-chips">
+          <button type="button" class="chip" data-k="Morning" aria-pressed="false">Morning</button>
+          <button type="button" class="chip" data-k="Afternoon" aria-pressed="false">Afternoon</button>
+          <button type="button" class="chip" data-k="Evening" aria-pressed="false">Evening</button></div></div>
+        <div class="field"><span class="lbl" id="l-arr">Work arrangement</span><div class="chips" role="group" aria-labelledby="l-arr" id="arr-chips">
+          <button type="button" class="chip" data-k="On-site" aria-pressed="false">On-site</button>
+          <button type="button" class="chip" data-k="Remote" aria-pressed="false">Remote</button>
+          <button type="button" class="chip" data-k="Hybrid" aria-pressed="false">Hybrid</button></div></div>
+        <div class="field"><label for="dur">Duration</label>
+          <select id="dur"><option value="">Any duration</option><option>One day</option><option>Temporary</option><option>Ongoing</option><option>Contract</option></select></div>
+        <div class="field"><label class="check"><input type="checkbox" id="flex"><span>Negotiable or flexible schedule</span></label></div>
+        <div class="field"><label class="check"><input type="checkbox" id="exam"><span>Works around lectures and exams</span></label></div>
+        <div class="f-actions"><button type="button" class="btn ghost small" id="clear">Clear filters</button></div>
+      </details>
+      <div>
+        <div class="results-top">
+          <div class="tabs" role="tablist" aria-label="Job view">
+            <button class="tab" role="tab" id="tab-all" aria-selected="true" data-v="all">All jobs</button>
+            <button class="tab" role="tab" id="tab-saved" aria-selected="false" data-v="saved">Saved (<span id="saved-n">0</span>)</button>
+          </div>
+          <div class="sort"><label for="sort">Sort</label>
+            <select id="sort"><option value="deadline">Closing soonest</option><option value="new">Newest</option><option value="hours">Fewest hours</option></select></div>
+        </div>
+        <p id="count" role="status" aria-live="polite" style="margin-bottom:12px"></p>
+        <div class="list" id="list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="employers" aria-labelledby="emp-h">
+    <div class="sec-head">
+      <h2 id="emp-h">Employer portal</h2>
+      <p>Post structured shifts so students can see at once whether the job fits. The hub team reviews every vacancy before it is published.</p>
+    </div>
+    <form class="form" id="emp-form" novalidate>
+      <div class="grid2">
+        <div class="field"><label class="req" for="e-title">Job title</label><input type="text" id="e-title"></div>
+        <div class="field"><label class="req" for="e-name">Employer or company name</label><input type="text" id="e-name"></div>
+        <div class="field"><label class="req" for="e-cat">Job category</label><select id="e-cat"><option value="">Choose a category</option></select></div>
+        <div class="field"><label class="req" for="e-arr">Work arrangement</label><select id="e-arr"><option value="">Choose</option><option>On-site</option><option>Remote</option><option>Hybrid</option></select></div>
+      </div>
+      <div class="field"><label class="req" for="e-loc">Work location (address or area, or Remote)</label><input type="text" id="e-loc"></div>
+      <div class="field"><label class="req" for="e-desc">Job description and duties</label><textarea id="e-desc"></textarea></div>
+      <div class="grid2">
+        <div class="field"><label class="req" for="e-flex">Schedule flexibility</label>
+          <select id="e-flex"><option value="">Choose</option><option>Fixed</option><option>Negotiable</option><option>Flexible</option></select></div>
+        <div class="field"><label class="req" for="e-hrs">Hours per week</label><input type="number" id="e-hrs" min="1" max="40"></div>
+      </div>
+      <fieldset><legend class="req" id="e-shift-l">Shift times</legend>
+        <p class="fine" id="e-shift-h" style="margin:0 0 8px">Add each shift with its day and start and end time. A flexible job must still list the hours when work may be done.</p>
+        <div id="e-shifts"></div>
+        <button type="button" class="btn ghost small" id="e-add">Add another shift</button>
+        <p class="fine" id="e-total"></p>
+      </fieldset>
+      <div class="field" id="e-minw" hidden><label for="e-min">Minimum hours per week for a flexible job</label><input type="number" id="e-min" min="1" max="40"></div>
+      <div class="field"><label for="e-dl">Deadlines or required deliverables (optional)</label><input type="text" id="e-dl" placeholder="For example, each design due within 3 days"></div>
+      <fieldset><legend>Required skills (essential only)</legend>
+        <div class="chips" id="e-skills"></div></fieldset>
+      <div class="grid2">
+        <div class="field"><label class="req" for="e-dur">Employment period</label><select id="e-dur"><option value="">Choose</option><option>One day</option><option>Temporary</option><option>Ongoing</option><option>Contract</option></select></div>
+        <div class="field"><label for="e-start">Start date (if not ongoing)</label><input type="date" id="e-start"></div>
+        <div class="field"><label for="e-end">End date (if not ongoing)</label><input type="date" id="e-end"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="e-pay">Pay amount in kwacha</label><input type="number" id="e-pay" min="0"></div>
+        <div class="field"><label class="req" for="e-basis">Payment basis</label>
+          <select id="e-basis"><option value="">Choose</option><option>per hour</option><option>per shift</option><option>per day</option><option>per month</option><option>per piece of work</option><option>not stated yet</option></select></div>
+        <div class="field"><label class="req" for="e-dead">Application deadline date</label><input type="date" id="e-dead"></div>
+        <div class="field"><label class="req" for="e-dt">Application deadline time</label><input type="time" id="e-dt" value="17:00"></div>
+        <div class="field"><label class="req" for="e-meth">Application method</label>
+          <select id="e-meth"><option value="">Choose</option><option>Website form</option><option>Email</option><option>Verified external link</option></select></div>
+        <div class="field"><label class="req" for="e-contact">Link, email or contact for applications</label><input type="text" id="e-contact"></div>
+      </div>
+      <div class="field"><label class="check"><input type="checkbox" id="e-exam"><span>We can work around students' lecture and examination schedules</span></label></div>
+      <div class="field"><label class="check"><input type="checkbox" id="e-ok"><span class="req">This is a genuine vacancy and we will never charge students a fee to apply or start.</span></label></div>
+      <p id="e-err" class="msg" style="color:var(--danger)" role="alert"></p>
+      <div class="f-actions"><button class="btn" type="submit">Prepare vacancy for review</button></div>
+      <div class="summary" id="e-sum" hidden>
+        <h3 style="font-size:18px">Vacancy ready for review</h3>
+        <p style="color:var(--muted);font-size:14px">Verification status: pending. Only verified, active listings appear in student matches. This prototype does not send submissions yet. Copy the summary and pass it to the hub team.</p>
+        <pre id="e-pre"></pre>
+        <div><button type="button" class="btn small" id="e-copy">Copy summary</button> <span class="msg" id="e-copied" role="status" aria-live="polite"></span></div>
+      </div>
+    </form>
+    <ul class="rules">
+      <li>Every vacancy is reviewed before it is published.</li>
+      <li>A job marked flexible still shows its permitted hours, minimum hours and deadlines.</li>
+      <li>Students are never asked to pay to apply, train or start.</li>
+      <li>Employers who work around lectures and exams are marked for students.</li>
+    </ul>
+  </section>
+
+  <section id="safety" aria-labelledby="safe-h">
+    <div class="sec-head"><h2 id="safe-h">Stay safe when you apply</h2><p>Use the Report button on any listing that looks wrong.</p></div>
+    <div class="safety">
+      <div><h3>Never pay to get a job</h3><p>A real employer does not ask for registration, uniform or training fees before you start.</p></div>
+      <div><h3>Verified is a check, not a promise</h3><p>The hub checks employers before listing them, but cannot guarantee any job. Meet in public places and tell someone where you are going.</p></div>
+      <div><h3>Protect your documents</h3><p>Do not send your NRC, bank PIN or mobile money PIN with an application.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="core">Help students find work that fits their education, rather than forcing their education to fit around work.</p>
+    <small>Mukuba University Student Opportunity Hub, by Cornelious Chilekwa.</small>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var DS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  var DN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  var DL = ["M", "T", "W", "T", "F", "S", "S"];
+  var SLOTS = { Morning: [360, 720], Afternoon: [720, 1020], Evening: [1020, 1320] };
+  var CATS = ["Part-time office", "Retail and hospitality", "Tutoring", "Digital and freelance", "Promotional work", "Events and temporary", "Campus-based"];
+  var SKILLS = ["Customer service", "Numeracy", "Computer skills", "Typing and data entry", "Communication", "Social media", "Graphic design", "Video editing", "Subject tutoring", "Event support"];
+  var AREAS = ["Campus", "Kitwe CBD", "Riverside", "Nkana East", "Chimwemwe"];
+  var MAXPTS = { sched: 35, arr: 20, cs: 20, pay: 10, loc: 10, flex: 5 };
+  var PLABEL = { sched: "Fit with your days and hours", arr: "Work arrangement", cs: "Category and skills", pay: "Pay information", loc: "Location", flex: "Schedule flexibility" };
+
+  function tm(s) { var p = s.split(":"); return +p[0] * 60 + +p[1]; }
+  function hm(m) { m = m % 1440; var h = Math.floor(m / 60), x = m % 60; return (h < 10 ? "0" : "") + h + ":" + (x < 10 ? "0" : "") + x; }
+  function today0() { var d = new Date(); d.setHours(0, 0, 0, 0); return d; }
+  function dayOff(n) { var d = today0(); d.setDate(d.getDate() + n); return d; }
+  function parseISO(s) { if (!s) return null; var p = s.split("-"); if (p.length !== 3) return null; return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function fmtDate(d) { return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); }
+  function fmtShort(d) { return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" }); }
+  function fmtH(n) { return (Math.round(n * 10) / 10) + (n === 1 ? " hour" : " hours"); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  // days from now until the next given weekday (Mon=0), at least min days away
+  function nextDow(dow, min) {
+    for (var n = min; n < min + 7; n++) { var d = dayOff(n), w = (d.getDay() + 6) % 7; if (w === dow) return n; }
+    return min;
+  }
+  function X(days, a, b) { return days.map(function (d) { return [d, a, b]; }); }
+  var ALL = [0, 1, 2, 3, 4, 5, 6];
+
+  // Example listings only. posted = days ago, due = days until the application deadline.
+  var JOBS = [
+    { t: "Part-time Shop Assistant", emp: "Copperbelt Fresh Mart", st: "verified", cat: "Retail and hospitality", area: "Kitwe CBD", loc: "Kitwe CBD, Kitwe", arr: "On-site", shifts: [[4, "14:00", "18:00"], [5, "09:00", "13:00"]], flex: "Fixed", dur: "Ongoing", pay: { text: "K30 per hour", amt: 30, basis: "hour" }, skills: ["Customer service", "Numeracy"], exam: true, posted: 1, due: 9,
+      desc: "Serve customers, stock shelves and use the till on Friday afternoons and Saturday mornings.", quals: "Customer service and basic numeracy. No experience needed.", terms: "Paid weekly. Extra shifts are offered, never required." },
+    { t: "Evening Waiter or Waitress", emp: "Riverside Grill", st: "verified", cat: "Retail and hospitality", area: "Riverside", loc: "Riverside, Kitwe", arr: "On-site", shifts: X([4, 5], "17:00", "22:00"), flex: "Fixed", dur: "Ongoing", pay: { text: "K200 per shift plus tips", amt: 200, basis: "shift" }, skills: ["Customer service", "Communication"], exam: true, posted: 4, due: 14,
+      desc: "Take orders, serve tables and help close the restaurant on Friday and Saturday nights.", quals: "Good communication. Comfortable on your feet. Food handling training provided.", terms: "Transport home arranged after 21:00. Paid weekly." },
+    { t: "Front Desk Assistant", emp: "Nkana Family Clinic", st: "verified", cat: "Part-time office", area: "Nkana East", loc: "Nkana East, Kitwe", arr: "On-site", shifts: X([0, 1, 2, 3, 4], "15:00", "18:00"), flex: "Fixed", dur: "Ongoing", pay: { text: "K1,800 per month", amt: 1800, basis: "month" }, skills: ["Computer skills", "Communication"], exam: true, posted: 2, due: 12,
+      desc: "Greet patients, answer the phone and keep the appointment book up to date.", quals: "Neat appearance, clear speech, basic Word and Excel.", terms: "Monthly salary. Reduced hours during exams on request." },
+    { t: "Data Entry Clerk", emp: "School office, Mukuba University", st: "verified", cat: "Campus-based", area: "Campus", loc: "Campus", arr: "On-site", shifts: X([0, 2, 4], "14:00", "17:00"), flex: "Fixed", dur: "Temporary", startOff: 7, endOff: 49, pay: { text: "K45 per hour", amt: 45, basis: "hour" }, skills: ["Typing and data entry"], exam: true, posted: 6, due: 6,
+      desc: "Enter student records into spreadsheets for six weeks and check them for errors.", quals: "Fast, accurate typing and careful attention to detail.", terms: "Six weeks, paid at the end of each fortnight." },
+    { t: "Maths and Science Tutor", emp: "Kitwe Learning Circle", st: "verified", cat: "Tutoring", area: "Chimwemwe", loc: "Chimwemwe, Kitwe", arr: "Hybrid", shifts: [[1, "18:00", "20:00"], [3, "18:00", "20:00"], [5, "09:00", "12:00"]], flex: "Negotiable", dur: "Ongoing", pay: { text: "K80 per hour", amt: 80, basis: "hour" }, skills: ["Subject tutoring", "Communication"], exam: true, posted: 3, due: 20,
+      desc: "Teach small groups of Grade 10 to 12 learners and prepare short practice sets.", quals: "Strong results in the subject you teach. Patient and well organised.", terms: "Paid monthly. Online sessions are allowed in exam weeks." },
+    { t: "Social Media Assistant", emp: "Mpelembe Boutique Hotel", st: "verified", cat: "Digital and freelance", area: "Remote", loc: "Remote", arr: "Remote", flex: "Flexible", hrs: 8, dur: "Contract", startOff: 10, endOff: 100, pay: { text: "K1,200 per month", amt: 1200, basis: "month" }, skills: ["Social media"], exam: true, posted: 5, due: 16,
+      desc: "Plan and post photos and short captions on Facebook and Instagram.", quals: "Active on social media, clear English writing and phone camera skills.", terms: "Three-month contract. Sample posts requested before it starts.", note: "The employer has not listed work hours yet." },
+    { t: "Freelance Graphic Designer", emp: "Zambezi Print and Signs", st: "verified", cat: "Digital and freelance", area: "Remote", loc: "Remote", arr: "Remote", win: { days: ALL, s: "06:00", e: "22:00" }, minHrs: 4, hrs: 6, flex: "Flexible", dur: "Contract", pay: { text: "K150 to K400 per design", amt: 150, basis: "piece" }, skills: ["Graphic design"], exam: true, posted: 8, due: 25, deadlines: "Each design is due within 3 days of the brief.",
+      desc: "Design flyers, banners and business cards from a short brief.", quals: "A portfolio of at least three pieces. Canva, Photoshop or similar.", terms: "Paid per approved design within seven days." },
+    { t: "Weekend Brand Ambassador", emp: "Sunrise Beverages", st: "verified", cat: "Promotional work", area: "Kitwe CBD", loc: "Kitwe CBD, Kitwe", arr: "On-site", shifts: X([5, 6], "10:00", "16:00"), flex: "Fixed", dur: "Temporary", startOff: nextDow(5, 5), endOff: nextDow(5, 5) + 22, pay: { text: "K300 per day", amt: 300, basis: "day" }, skills: ["Communication", "Customer service"], exam: false, posted: 2, due: 4,
+      desc: "Hand out samples and talk to shoppers at supermarkets for four weekends.", quals: "Outgoing and confident. Uniform provided.", terms: "Four weekends. Paid after each weekend." },
+    { t: "Conference Registration Assistant", emp: "Copperbelt Business Forum", st: "verified", cat: "Events and temporary", area: "Kitwe CBD", loc: "Kitwe CBD, Kitwe", arr: "On-site", shifts: [[4, "07:00", "15:00"]], flex: "Fixed", dur: "One day", startOff: nextDow(4, 7), endOff: nextDow(4, 7), pay: { text: "K400 for the day", amt: 400, basis: "day" }, skills: ["Event support", "Communication"], exam: true, posted: 7, due: 5,
+      desc: "Check in delegates, hand out name badges and point guests to sessions.", quals: "Tidy, polite and good with names. Smart dress required.", terms: "Meals provided. Paid on the day." },
+    { t: "Library Shelving Assistant", emp: "Mukuba University Library", st: "verified", cat: "Campus-based", area: "Campus", loc: "Campus", arr: "On-site", shifts: X([0, 1, 2, 3, 4], "15:00", "17:00"), flex: "Fixed", dur: "Ongoing", pay: { text: "K35 per hour", amt: 35, basis: "hour" }, skills: [], exam: true, posted: 9, due: 18,
+      desc: "Return books to shelves and help students find materials.", quals: "Careful and quiet. No special skills needed.", terms: "Paid monthly. Hours reduce during exams." },
+    { t: "Supermarket Cashier", emp: "Chimwemwe Superstore", st: "verified", cat: "Retail and hospitality", area: "Chimwemwe", loc: "Chimwemwe, Kitwe", arr: "On-site", shifts: X([4, 5, 6], "14:00", "20:00"), flex: "Fixed", dur: "Ongoing", pay: { text: "K220 per shift", amt: 220, basis: "shift" }, skills: ["Numeracy", "Customer service"], exam: false, posted: 1, due: 11,
+      desc: "Run a till, bag groceries and handle mobile money payments.", quals: "Good with numbers and trustworthy. Till training provided.", terms: "Paid weekly. Fixed weekend shifts." },
+    { t: "Short-Form Video Editor", emp: "Kwacha Creative Studio", st: "verified", cat: "Digital and freelance", area: "Remote", loc: "Remote", arr: "Remote", win: { days: ALL, s: "06:00", e: "23:00" }, minHrs: 4, hrs: 6, flex: "Flexible", dur: "Contract", pay: { text: "K120 per clip", amt: 120, basis: "piece" }, skills: ["Video editing"], exam: true, posted: 12, due: 30, deadlines: "Each clip is due 48 hours after you receive the footage.",
+      desc: "Cut and caption 30-second clips for local business pages.", quals: "Experience with CapCut, DaVinci Resolve or similar.", terms: "Paid per accepted clip." },
+    { t: "Weekday Morning Receptionist", emp: "Nkana Family Clinic", st: "verified", cat: "Part-time office", area: "Nkana East", loc: "Nkana East, Kitwe", arr: "On-site", shifts: X([0, 1, 2, 3, 4], "08:00", "12:00"), flex: "Fixed", dur: "Ongoing", pay: { text: "K2,500 per month", amt: 2500, basis: "month" }, skills: ["Computer skills", "Communication"], exam: false, posted: 10, due: 15,
+      desc: "Open the front desk each weekday morning and manage patient check-in.", quals: "Professional manner and good computer skills.", terms: "Monthly salary. Fixed morning shifts." },
+    { t: "Night Security Assistant", emp: "Example Guard Services", st: "pending", due: 20 },
+    { t: "Holiday Promotions Helper", emp: "Example Retail Group", st: "verified", due: -2 },
+    { t: "Online Data Agent", emp: "Example Online Offers", st: "suspended", due: 20 },
+    { t: "Warehouse Helper", emp: "Example Stores", st: "rejected", due: 20 }
+  ];
+  JOBS.forEach(function (j, i) {
+    j.id = "j" + i;
+    if (j.win) { j.win.sm = tm(j.win.s); j.win.em = tm(j.win.e); }
+    j.req = reqHours(j);
+  });
+  function shiftLen(s) { var a = tm(s[1]), b = tm(s[2]); if (b <= a) b += 1440; return (b - a) / 60; }
+  function reqHours(j) {
+    if (j.shifts && j.shifts.length) return j.shifts.reduce(function (t, s) { return t + shiftLen(s); }, 0);
+    return j.minHrs || j.hrs || 0;
+  }
+  function active(j) { return j.st === "verified" && j.due >= 0; }
+  function split(s) {
+    var d = s[0], a = tm(s[1]), b = tm(s[2]);
+    if (b <= a) return [{ d: d, s: a, e: 1440 }, { d: (d + 1) % 7, s: 0, e: b }];
+    return [{ d: d, s: a, e: b }];
+  }
+  function jobDays(j) {
+    var set = [];
+    if (j.shifts) j.shifts.forEach(function (s) { split(s).forEach(function (g) { if (set.indexOf(g.d) < 0) set.push(g.d); }); });
+    else if (j.win) set = j.win.days.slice();
+    return set;
+  }
+  function jobSlots(j) {
+    var out = [], ranges = [];
+    if (j.shifts) j.shifts.forEach(function (s) { split(s).forEach(function (g) { ranges.push([g.s, g.e]); }); });
+    else if (j.win) ranges.push([j.win.sm, j.win.em]);
+    Object.keys(SLOTS).forEach(function (k) { if (ranges.some(function (r) { return r[0] < SLOTS[k][1] && r[1] > SLOTS[k][0]; })) out.push(k); });
+    return out;
+  }
+  function runs(days) {
+    days = days.slice().sort(function (a, b) { return a - b; });
+    var out = [], i = 0;
+    while (i < days.length) { var j = i; while (j + 1 < days.length && days[j + 1] === days[j] + 1) j++; out.push(j - i >= 2 ? DS[days[i]] + " to " + DS[days[j]] : days.slice(i, j + 1).map(function (d) { return DS[d]; }).join(", ")); i = j + 1; }
+    return out.join(", ");
+  }
+  function whenText(j) {
+    if (j.shifts && j.shifts.length) {
+      var groups = {}, order = [];
+      j.shifts.forEach(function (s) { var k = s[1] + " to " + s[2]; if (!groups[k]) { groups[k] = []; order.push(k); } groups[k].push(s[0]); });
+      return order.map(function (k) { return runs(groups[k]) + " " + k; }).join("; ");
+    }
+    if (j.win) return (j.win.days.length === 7 ? "Any day" : runs(j.win.days)) + " " + j.win.s + " to " + j.win.e + ", agree your own hours";
+    return "Times to be agreed with the employer";
+  }
+  function hrsText(j) { if (j.shifts) return fmtH(j.req); if (j.minHrs) return j.minHrs + " to " + j.hrs + " hours"; return fmtH(j.hrs); }
+
+  // storage
+  var store = {
+    mem: {},
+    get: function (k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : (k in this.mem ? this.mem[k] : d); } catch (e) { return k in this.mem ? this.mem[k] : d; } },
+    set: function (k, v) { this.mem[k] = v; try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var $ = function (s) { return document.querySelector(s); };
+
+  // profile
+  function emptyDays() { var o = {}; ALL.forEach(function (d) { o[d] = { on: false, slots: [], custom: false, cs: "09:00", ce: "13:00" }; }); return o; }
+  function exampleProfile() {
+    var p = { example: true, days: emptyDays(), maxHrs: 20, sched: "flexible", arr: "Any", cats: [], loc: "Anywhere", minPay: "", per: "hour", skills: ["Customer service", "Numeracy", "Communication", "Computer skills"], exp: "", uFrom: "", uTo: "" };
+    ALL.forEach(function (d) { p.days[d].on = true; p.days[d].slots = d < 5 ? ["Afternoon", "Evening"] : ["Morning", "Afternoon", "Evening"]; });
+    return p;
+  }
+  function blankProfile() { var p = exampleProfile(); p.example = false; p.days = emptyDays(); p.maxHrs = 15; p.skills = []; return p; }
+  var prof = store.get("muoh-profile2", null) || exampleProfile();
+  var saved = store.get("muoh-saved", []);
+  var reported = store.get("muoh-reported", []);
+  var alertOn = store.get("muoh-alert2", false);
+  function saveProf() { store.set("muoh-profile2", prof); }
+
+  function merge(w) {
+    w = w.slice().sort(function (a, b) { return a[0] - b[0]; });
+    var out = [];
+    w.forEach(function (x) { var l = out[out.length - 1]; if (l && x[0] <= l[1]) l[1] = Math.max(l[1], x[1]); else out.push([x[0], x[1]]); });
+    return out;
+  }
+  // null = day not available, [] = day chosen but no hours entered
+  function winOf(p, d) {
+    var r = p.days[d]; if (!r || !r.on) return null;
+    var w = r.slots.map(function (k) { return SLOTS[k]; });
+    if (r.custom && r.cs && r.ce && tm(r.ce) > tm(r.cs)) w.push([tm(r.cs), tm(r.ce)]);
+    return merge(w);
+  }
+  function areaOk(p, j) { return p.loc === "Anywhere" || j.area === p.loc; }
+
+  function payHourly(j) {
+    var b = j.pay && j.pay.basis, a = j.pay && j.pay.amt;
+    if (!a) return null;
+    if (b === "hour") return a;
+    if (b === "shift" || b === "day") { var n = j.shifts ? j.shifts.length : 1; return a / (j.req / n); }
+    if (b === "month") return a / (j.req * 4.33);
+    return null;
+  }
+
+  // The matching engine. Returns {ex: reason} when the job conflicts, otherwise a scored result.
+  function evaluate(j, p) {
+    var ok = [], ask = [], pt = { sched: 0, arr: 0, cs: 0, pay: 0, loc: 0, flex: 0 }, confirm = null;
+    if (j.req > p.maxHrs) return { ex: "Needs at least " + fmtH(j.req) + " a week. Your limit is " + p.maxHrs + "." };
+    var uf = parseISO(p.uFrom), ut = parseISO(p.uTo);
+    if (uf && ut && j.startOff != null && dayOff(j.startOff) <= ut && dayOff(j.endOff) >= uf) return { ex: "Runs on dates you marked unavailable (" + fmtShort(uf) + " to " + fmtShort(ut) + ")." };
+
+    if (j.shifts && j.shifts.length) {
+      var segs = [], conf = 0, unc = [], bad = null;
+      j.shifts.forEach(function (s) { segs = segs.concat(split(s)); });
+      segs.forEach(function (g) {
+        if (bad) return;
+        var w = winOf(p, g.d);
+        if (w === null) { bad = "Needs " + DN[g.d] + ", which you marked unavailable."; return; }
+        if (!w.length) { if (unc.indexOf(g.d) < 0) unc.push(g.d); return; }
+        if (w.some(function (x) { return x[0] <= g.s && g.e <= x[1]; })) conf++;
+        else bad = "Needs " + DN[g.d] + " " + hm(g.s) + " to " + hm(g.e) + ", outside your available times.";
+      });
+      if (bad) return { ex: bad + (j.flex === "Negotiable" ? " The employer says times are negotiable, so you could ask." : "") };
+      var uncN = segs.filter(function (g) { return unc.indexOf(g.d) > -1; }).length;
+      pt.sched = MAXPTS.sched * (conf + 0.5 * uncN) / segs.length;
+      if (uncN) { confirm = "time"; ask.push("Confirm your hours for " + unc.map(function (d) { return DN[d]; }).join(" and ") + ". You chose the day but not the times."); }
+      if (conf) ok.push(uncN ? "Some shifts fit your confirmed hours." : "Every shift (" + whenText(j) + ") fits your available times.");
+    } else if (j.win) {
+      var hrs = 0, unh = 0;
+      j.win.days.forEach(function (d) {
+        var w = winOf(p, d); if (w === null) return;
+        if (!w.length) { unh += (j.win.em - j.win.sm) / 60; return; }
+        w.forEach(function (x) { var o = Math.min(x[1], j.win.em) - Math.max(x[0], j.win.sm); if (o > 0) hrs += o / 60; });
+      });
+      var need = j.minHrs || j.hrs;
+      if (hrs >= need) { pt.sched = MAXPTS.sched * Math.min(1, hrs / j.hrs); ok.push("The work window overlaps " + fmtH(hrs) + " of your available time each week. The job needs at least " + fmtH(need) + "."); }
+      else if (hrs + unh >= need) { confirm = "time"; pt.sched = 17; ask.push("Confirm your hours on days where you have not entered times."); }
+      else return { ex: "The employer's work window overlaps only " + fmtH(hrs) + " of your available time. The job needs at least " + fmtH(need) + "." };
+    } else {
+      confirm = "info"; pt.sched = 15;
+      ask.push("The employer has not posted shift times. Ask for the schedule before you apply.");
+    }
+    if (j.deadlines) ask.push("Check you can meet the deadlines: " + j.deadlines.charAt(0).toLowerCase() + j.deadlines.slice(1));
+    ok.push("Needs " + hrsText(j) + " a week, within your " + p.maxHrs + "-hour limit.");
+
+    if (p.arr === "Any") { pt.arr = MAXPTS.arr; ok.push("Open to any arrangement. This job is " + j.arr.toLowerCase() + "."); }
+    else if (j.arr === p.arr) { pt.arr = MAXPTS.arr; ok.push(j.arr + ", as you prefer."); }
+    else if (j.arr === "Hybrid") { pt.arr = 10; ok.push("Hybrid, which includes some " + p.arr.toLowerCase() + " work."); }
+    else { pt.arr = 0; ask.push("This job is " + j.arr.toLowerCase() + ". You prefer " + p.arr.toLowerCase() + "."); }
+
+    var catPts = 12;
+    if (!p.cats.length || p.cats.indexOf(j.cat) > -1) { ok.push(p.cats.length ? j.cat + " is one of your categories." : "Category: " + j.cat + "."); }
+    else { catPts = 0; ask.push("Outside the categories you chose (" + j.cat + ")."); }
+    var skPts = 8;
+    if (j.skills.length) {
+      if (!p.skills.length) { skPts = 4; ask.push("Add your skills so we can check: " + j.skills.join(", ") + "."); }
+      else {
+        var have = j.skills.filter(function (s) { return p.skills.indexOf(s) > -1; }), miss = j.skills.filter(function (s) { return p.skills.indexOf(s) < 0; });
+        skPts = 8 * have.length / j.skills.length;
+        if (!miss.length) ok.push("Your skills cover what the job needs: " + have.join(", ") + ".");
+        else ask.push("Needs " + miss.join(" and ") + ". If you have this, add it to your profile.");
+      }
+    } else ok.push("No special skills required.");
+    pt.cs = catPts + skPts;
+
+    var pay = j.pay;
+    if (!pay || pay.basis === "none") { pt.pay = 5; ask.push("Pay is not stated. Ask before you apply."); }
+    else {
+      var minP = parseFloat(p.minPay);
+      if (!(minP > 0)) { pt.pay = 10; ok.push("Pay: " + pay.text + "."); }
+      else {
+        var est = payHourly(j);
+        if (est == null) { pt.pay = 5; ask.push("Pay is " + pay.text + ". Compare it with your minimum of K" + minP + " " + (p.per === "hour" ? "per hour" : p.per === "day" ? "per day" : "per month") + "."); }
+        else {
+          var perShift = j.shifts ? j.req / j.shifts.length : 8;
+          var cmp = p.per === "hour" ? est : p.per === "day" ? est * perShift : est * j.req * 4.33;
+          if (cmp >= minP) { pt.pay = 10; ok.push(pay.text + " meets your minimum pay."); }
+          else { pt.pay = 3; ask.push(pay.text + " may be below your minimum pay."); }
+        }
+      }
+    }
+
+    if (j.area === "Remote") { pt.loc = 10; ok.push("Remote, so no travel needed."); }
+    else if (areaOk(p, j)) { pt.loc = 10; ok.push(p.loc === "Anywhere" ? "On-site at " + j.loc + "." : j.loc + " is your preferred area."); }
+    else { pt.loc = 3; ask.push("Confirm you can travel to " + j.loc + ". You prefer " + p.loc + "."); }
+
+    var f = j.flex;
+    if (p.sched === "any") pt.flex = 3;
+    else if (p.sched === "flexible") pt.flex = f === "Flexible" ? 5 : f === "Negotiable" ? 3 : 1;
+    else pt.flex = f === "Fixed" ? 5 : f === "Negotiable" ? 3 : 1;
+
+    if (j.exam) ok.push("The employer works around lectures and exams.");
+    else if (j.startOff == null && uf && ut) ask.push("Ask about time off for your unavailable dates.");
+
+    var score = 0; Object.keys(pt).forEach(function (k) { score += pt[k]; });
+    var status = confirm ? "Confirm schedule" : ask.length ? "Potential match" : "Strong match";
+    return { score: Math.round(score), status: status, ok: ok, ask: ask, pt: pt };
+  }
+
+  // ---------- hero grid
+  (function () {
+    var rows = ["Morning", "Afternoon", "Evening"], h = "<span></span>";
+    DL.forEach(function (d) { h += '<span class="h">' + d + "</span>"; });
+    rows.forEach(function (r, ri) { h += '<span class="r">' + r + "</span>"; for (var d = 0; d < 7; d++) h += '<span class="c ' + (ri === 0 && d < 5 ? "lec" : "open") + '"></span>'; });
+    $("#wk").innerHTML = h;
+  })();
+
+  // ---------- profile UI
+  function opts(sel, arr) { arr.forEach(function (v) { var o = document.createElement("option"); o.value = v; o.textContent = v; $(sel).appendChild(o); }); }
+  opts("#cat", CATS); opts("#e-cat", CATS);
+  (function () { var l = $("#p-loc"); ["Anywhere"].concat(AREAS).forEach(function (a) { var o = document.createElement("option"); o.value = a; o.textContent = a === "Anywhere" ? "Anywhere in Kitwe" : a; l.appendChild(o); }); })();
+  var locs = []; JOBS.forEach(function (j) { if (active(j) && locs.indexOf(j.loc) < 0) locs.push(j.loc); }); locs.sort(); opts("#loc", locs);
+  function chipHtml(list, attr) { return list.map(function (v) { return '<button type="button" class="chip" ' + attr + '="' + esc(v) + '" aria-pressed="false">' + esc(v) + "</button>"; }).join(""); }
+  $("#p-cats").innerHTML = chipHtml(CATS, "data-k"); $("#p-skills").innerHTML = chipHtml(SKILLS, "data-k");
+  $("#day-chips").innerHTML = DS.map(function (d, i) { return '<button type="button" class="chip" data-k="' + i + '" aria-pressed="false">' + d + "</button>"; }).join("");
+  $("#e-skills").innerHTML = SKILLS.map(function (s) { return '<label class="check"><input type="checkbox" value="' + s + '">' + s + "</label>"; }).join("");
+
+  function buildDays() {
+    $("#days").innerHTML = ALL.map(function (d) {
+      return '<div class="day" data-d="' + d + '"><div class="day-head"><span class="day-name">' + DN[d] + '</span><button type="button" class="chip" data-a="day" aria-pressed="false">Available</button></div>' +
+        '<div class="day-body" hidden><div class="chips">' + Object.keys(SLOTS).map(function (k) { return '<button type="button" class="chip" data-a="slot" data-k="' + k + '" aria-pressed="false" title="' + hm(SLOTS[k][0]) + ' to ' + hm(SLOTS[k][1]) + '">' + k + "</button>"; }).join("") +
+        '<button type="button" class="chip" data-a="custom" aria-pressed="false">Custom times</button></div>' +
+        '<div class="times" hidden><div class="tf"><label for="cs' + d + '">From</label><input type="time" id="cs' + d + '" data-a="cs"></div><div class="tf"><label for="ce' + d + '">To</label><input type="time" id="ce' + d + '" data-a="ce"></div></div>' +
+        '<p class="hint" hidden>Choose the hours you are free. Jobs that need this day will say "Confirm schedule".</p></div></div>';
+    }).join("");
+  }
+  function syncDays() {
+    ALL.forEach(function (d) {
+      var r = prof.days[d], el = $('.day[data-d="' + d + '"]'); if (!el) return;
+      el.classList.toggle("on", r.on);
+      el.querySelector('[data-a="day"]').setAttribute("aria-pressed", String(r.on));
+      el.querySelector(".day-body").hidden = !r.on;
+      Array.prototype.forEach.call(el.querySelectorAll('[data-a="slot"]'), function (b) { b.setAttribute("aria-pressed", String(r.slots.indexOf(b.getAttribute("data-k")) > -1)); });
+      el.querySelector('[data-a="custom"]').setAttribute("aria-pressed", String(r.custom));
+      el.querySelector(".times").hidden = !r.custom;
+      el.querySelector('[data-a="cs"]').value = r.cs; el.querySelector('[data-a="ce"]').value = r.ce;
+      var w = winOf(prof, d); el.querySelector(".hint").hidden = !(r.on && w && !w.length);
+    });
+  }
+  function syncFields() {
+    $("#p-max").value = prof.maxHrs; $("#p-sched").value = prof.sched; $("#p-arr").value = prof.arr; $("#p-loc").value = prof.loc;
+    $("#p-pay").value = prof.minPay; $("#p-per").value = prof.per; $("#p-exp").value = prof.exp; $("#p-ufrom").value = prof.uFrom; $("#p-uto").value = prof.uTo;
+    Array.prototype.forEach.call($("#p-cats").children, function (c) { c.setAttribute("aria-pressed", String(prof.cats.indexOf(c.getAttribute("data-k")) > -1)); });
+    Array.prototype.forEach.call($("#p-skills").children, function (c) { c.setAttribute("aria-pressed", String(prof.skills.indexOf(c.getAttribute("data-k")) > -1)); });
+    $("#p-note").textContent = prof.example ? "Showing an example student: free Monday to Sunday, flexible hours, any work arrangement, with lectures on weekday mornings. Change anything to match your own timetable." : "Your changes are saved on this device and matches update as you type.";
+  }
+  function touched() { prof.example = false; saveProf(); $("#p-note").textContent = "Your changes are saved on this device and matches update as you type."; syncDays(); renderMatches(); renderBrowse(); }
+
+  $("#days").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var d = +b.closest(".day").getAttribute("data-d"), r = prof.days[d], a = b.getAttribute("data-a");
+    if (a === "day") r.on = !r.on;
+    else if (a === "slot") { var k = b.getAttribute("data-k"), i = r.slots.indexOf(k); if (i > -1) r.slots.splice(i, 1); else r.slots.push(k); }
+    else if (a === "custom") r.custom = !r.custom;
+    touched();
+  });
+  $("#days").addEventListener("input", function (e) {
+    var t = e.target, a = t.getAttribute("data-a"); if (a !== "cs" && a !== "ce") return;
+    prof.days[+t.closest(".day").getAttribute("data-d")][a] = t.value; touched();
+  });
+  function bindProfChips(sel, key) {
+    $(sel).addEventListener("click", function (e) {
+      var c = e.target.closest(".chip"); if (!c) return;
+      var k = c.getAttribute("data-k"), i = prof[key].indexOf(k); if (i > -1) prof[key].splice(i, 1); else prof[key].push(k);
+      c.setAttribute("aria-pressed", String(i < 0)); touched();
+    });
+  }
+  bindProfChips("#p-cats", "cats"); bindProfChips("#p-skills", "skills");
+  [["#p-max", "maxHrs", "input"], ["#p-sched", "sched", "change"], ["#p-arr", "arr", "change"], ["#p-loc", "loc", "change"], ["#p-pay", "minPay", "input"], ["#p-per", "per", "change"], ["#p-exp", "exp", "input"], ["#p-ufrom", "uFrom", "change"], ["#p-uto", "uTo", "change"]].forEach(function (a) {
+    $(a[0]).addEventListener(a[2], function () { var v = this.value; prof[a[1]] = a[1] === "maxHrs" ? (parseFloat(v) > 0 ? parseFloat(v) : 1) : v; touched(); });
+  });
+  $("#p-example").addEventListener("click", function () { prof = exampleProfile(); saveProf(); syncFields(); syncDays(); renderMatches(); renderBrowse(); });
+  $("#p-clear").addEventListener("click", function () { prof = blankProfile(); saveProf(); syncFields(); syncDays(); $("#p-note").textContent = "Profile cleared from this device. Choose the days and hours you are free."; renderMatches(); renderBrowse(); });
+
+  // ---------- cards
+  function closesText(j) { return j.due === 0 ? "Closes today" : j.due === 1 ? "Closes tomorrow" : "Closes in " + j.due + " days"; }
+  function card(j, ev, pre) {
+    var isSaved = saved.indexOf(j.id) > -1, isRep = reported.indexOf(j.id) > -1, jd = jobDays(j);
+    var strip = DL.map(function (d, i) { return '<span class="' + (jd.indexOf(i) > -1 ? "on" : "") + '">' + d + "</span>"; }).join("");
+    var tags = '<span class="badge cat">' + esc(j.cat) + "</span>" + (j.exam ? '<span class="badge exam">Works around exams</span>' : "") + (j.posted <= 3 ? '<span class="badge new">New</span>' : "") + (j.due <= 3 ? '<span class="badge soon">' + closesText(j) + "</span>" : "");
+    if (!ev.matchbox && ev.fits) tags += '<span class="badge fit">Fits your timetable</span>';
+    var mb = "";
+    if (ev.matchbox) {
+      var r = ev.r, cls = r.status === "Strong match" ? "strong" : r.status === "Potential match" ? "potential" : "confirm";
+      mb = '<div class="matchbox"><div class="mh"><span class="badge ' + cls + '">' + r.status + '</span><span class="score">' + r.score + ' / 100</span></div>' +
+        '<ul class="why">' + r.ok.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" +
+        (r.ask.length ? '<p class="ask-h">To confirm</p><ul class="ask">' + r.ask.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" : "") +
+        '<details class="bk"><summary>How the score is worked out</summary>' + Object.keys(MAXPTS).map(function (k) { var v = Math.round(r.pt[k] * 10) / 10; return '<div class="row"><span>' + PLABEL[k] + "</span><b>" + v + " / " + MAXPTS[k] + '</b><div class="track"><i style="width:' + Math.round(100 * r.pt[k] / MAXPTS[k]) + '%"></i></div></div>'; }).join("") +
+        '<p class="note">These are starting weights, not validated measures. They will be tested with students and adjusted.</p></details></div>';
+    }
+    var idp = pre + j.id;
+    return '<article class="job' + (isRep ? " reported" : "") + '" data-id="' + j.id + '">' +
+      '<div class="job-head"><div><h3>' + esc(j.t) + '</h3><p class="emp"><span>' + esc(j.emp) + '</span><span class="badge ok">Verified employer</span></p></div>' +
+      '<button type="button" class="save" data-act="save" aria-pressed="' + isSaved + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span>' + (isSaved ? "Saved" : "Save") + "</span></button></div>" +
+      mb +
+      '<p class="pay">' + esc(j.pay.text) + "</p>" +
+      '<div class="sched"><div class="dstrip" role="img" aria-label="Works ' + jd.map(function (d) { return DN[d]; }).join(", ") + '">' + strip + '</div><span class="when">' + esc(whenText(j)) + "</span></div>" +
+      '<dl class="facts"><div><dt>Location</dt><dd>' + esc(j.loc) + "</dd></div><div><dt>Hours per week</dt><dd>" + hrsText(j) + "</dd></div><div><dt>Arrangement</dt><dd>" + j.arr + "</dd></div><div><dt>Schedule</dt><dd>" + j.flex + "</dd></div><div><dt>Employment</dt><dd>" + j.dur + "</dd></div><div><dt>Apply by</dt><dd>" + fmtDate(dayOff(j.due)) + "</dd></div></dl>" +
+      '<div class="tags">' + tags + "</div>" +
+      '<div class="job-actions"><button type="button" class="btn small" data-act="details" aria-expanded="false">Details and how to apply</button>' +
+      (isRep ? '<span class="msg" style="align-self:center">Reported on this device</span>' : '<button type="button" class="linkbtn" data-act="report" aria-expanded="false">Report this ad</button>') + "</div>" +
+      '<div class="panel" data-p="details" hidden><div><h4>About the job</h4><p>' + esc(j.desc) + "</p></div><div><h4>Qualifications and skills</h4><p>" + esc(j.quals) + "</p></div><div><h4>Employment terms</h4><p>" + esc(j.terms) + "</p></div>" +
+      (j.deadlines ? "<div><h4>Deadlines</h4><p>" + esc(j.deadlines) + "</p></div>" : "") + (j.note ? "<div><h4>Note</h4><p>" + esc(j.note) + "</p></div>" : "") +
+      "<div><h4>How to apply</h4><p>Example listing. A real listing shows the employer's official link, phone or email here.</p></div><div><p>Verified means the hub checked the employer. It is not a guarantee. Never pay to apply.</p></div></div>" +
+      '<div class="reportbox" data-p="report" hidden><label for="r-' + idp + '">What is wrong with this ad?</label><select id="r-' + idp + '"><option>Asks for a fee or deposit</option><option>Looks like a scam</option><option>Unsafe or exploitative terms</option><option>Pay or hours are misleading</option><option>Something else</option></select>' +
+      '<textarea id="rt-' + idp + '" placeholder="Optional details"></textarea><div><button type="button" class="btn small" data-act="send-report">Submit report</button></div></div></article>';
+  }
+
+  // ---------- matches
+  var anyDay = function () { return ALL.some(function (d) { return prof.days[d].on; }); };
+  function runMatches() {
+    var res = [], left = [], hidden = { pending: 0, rejected: 0, suspended: 0, expired: 0 };
+    JOBS.forEach(function (j) {
+      if (j.st !== "verified") { hidden[j.st] = (hidden[j.st] || 0) + 1; return; }
+      if (j.due < 0) { hidden.expired++; return; }
+      var r = evaluate(j, prof);
+      if (r.ex) left.push({ j: j, why: r.ex }); else res.push({ j: j, r: r });
+    });
+    res.sort(function (a, b) { return b.r.score - a.r.score || a.j.due - b.j.due; });
+    return { res: res, left: left, hidden: hidden };
+  }
+  function renderMatches() {
+    var m = runMatches(), list = $("#mlist");
+    var lo = $("#left"), n = m.left.length;
+    if (!anyDay()) {
+      $("#mcount").textContent = "";
+      list.innerHTML = '<div class="empty"><h3>Choose when you are free</h3><p>Switch on the days you can work and add your hours. Matches appear here as you go.</p></div>';
+      lo.hidden = true; $("#left-n").textContent = ""; return;
+    }
+    $("#mcount").textContent = m.res.length + (m.res.length === 1 ? " job fits" : " jobs fit") + ", ranked by score then closing date.";
+    if (!m.res.length) {
+      list.innerHTML = '<div class="empty"><h3>No jobs fit your timetable right now</h3><p>Nothing active and verified matches your current availability and limits. You can widen the search or ask to be alerted when new jobs are posted.</p><div class="chips"><button type="button" class="chip" data-act="broaden-hrs">Allow 5 more hours a week</button><button type="button" class="chip" data-act="broaden-arr">Accept any arrangement</button><button type="button" class="chip" data-act="broaden-cat">Include all categories</button><button type="button" class="chip" data-act="alert-on">Alert me about new jobs</button></div></div>';
+    } else list.innerHTML = m.res.map(function (x) { return card(x.j, { matchbox: true, r: x.r }, "m-"); }).join("");
+    if (n) {
+      lo.hidden = false; $("#left-s").textContent = n + (n === 1 ? " job does not fit your timetable" : " jobs do not fit your timetable");
+      $("#left-l").innerHTML = m.left.map(function (x) { return "<li><strong>" + esc(x.j.t) + "</strong> at " + esc(x.j.emp) + "<span>" + esc(x.why) + "</span></li>"; }).join("");
+    } else lo.hidden = true;
+    var h = m.hidden, parts = [];
+    if (h.pending) parts.push(h.pending + " with an employer not yet verified");
+    if (h.expired) parts.push(h.expired + " expired");
+    if (h.suspended) parts.push(h.suspended + " suspended");
+    if (h.rejected) parts.push(h.rejected + " rejected");
+    $("#left-n").textContent = parts.length ? "Not shown in any results: " + parts.join(", ") + ". Only active listings from verified employers are recommended." : "";
+    updateAlert(m);
+  }
+  function updateAlert(m) {
+    m = m || runMatches();
+    var btn = $("#alert-btn"); btn.setAttribute("aria-pressed", String(alertOn));
+    btn.textContent = alertOn ? "Alerts on: tap to turn off" : "Alert me about new matches";
+    if (alertOn) {
+      var n = m.res.filter(function (x) { return x.j.posted <= 7; }).length;
+      $("#alert-t").textContent = "Alerts are on for this device. " + n + (n === 1 ? " job" : " jobs") + " posted in the last 7 days fit your timetable. Email and SMS alerts need the live hub.";
+    } else $("#alert-t").textContent = "Alerts tell you when a newly posted job fits your timetable. Email and SMS alerts need the live hub, so for now matches are marked on this page.";
+  }
+  $("#alert-btn").addEventListener("click", function () { alertOn = !alertOn; store.set("muoh-alert2", alertOn); updateAlert(); });
+
+  // ---------- browse
+  var st = { q: "", cat: "", loc: "", dur: "", days: [], times: [], arr: [], flex: false, exam: false, view: "all", sort: "deadline" };
+  function filtered() {
+    var q = st.q.trim().toLowerCase();
+    var out = JOBS.filter(function (j) {
+      if (!active(j)) return false;
+      if (st.view === "saved" && saved.indexOf(j.id) < 0) return false;
+      if (q && (j.t + " " + j.emp + " " + j.cat).toLowerCase().indexOf(q) < 0) return false;
+      if (st.cat && j.cat !== st.cat) return false;
+      if (st.loc && j.loc !== st.loc) return false;
+      if (st.dur && j.dur !== st.dur) return false;
+      if (st.arr.length && st.arr.indexOf(j.arr) < 0) return false;
+      if (st.days.length) { var jd = jobDays(j); if (!st.days.some(function (d) { return jd.indexOf(+d) > -1; })) return false; }
+      if (st.times.length) { var js = jobSlots(j); if (!st.times.some(function (k) { return js.indexOf(k) > -1; })) return false; }
+      if (st.flex && j.flex === "Fixed") return false;
+      if (st.exam && !j.exam) return false;
+      return true;
+    });
+    out.sort(function (a, b) { return st.sort === "new" ? a.posted - b.posted : st.sort === "hours" ? a.req - b.req : a.due - b.due; });
+    return out;
+  }
+  function renderBrowse() {
+    var res = filtered(), list = $("#list");
+    $("#saved-n").textContent = saved.length;
+    $("#count").textContent = res.length + (res.length === 1 ? " job" : " jobs") + (st.view === "saved" ? " saved" : " found") + ". All are example listings.";
+    if (!res.length) {
+      var none = st.view === "saved" && !saved.length;
+      list.innerHTML = '<div class="empty"><h3>' + (none ? "Nothing saved yet" : "No jobs match these filters") + "</h3><p>" + (none ? "Tap Save on any job to keep it here. Jobs that close within 3 days are flagged." : "Try fewer filters or a different day.") + "</p>" +
+        (none ? '<button type="button" class="btn small" data-act="all">Browse all jobs</button>' : '<button type="button" class="btn small" data-act="clear">Clear filters</button>') + "</div>";
+      return;
+    }
+    list.innerHTML = res.map(function (j) { var r = anyDay() ? evaluate(j, prof) : { ex: "x" }; return card(j, { fits: !r.ex }, "b-"); }).join("");
+  }
+
+  // ---------- shared card actions
+  function syncSaved() {
+    Array.prototype.forEach.call(document.querySelectorAll(".job"), function (a) {
+      var b = a.querySelector('[data-act="save"]'), on = saved.indexOf(a.getAttribute("data-id")) > -1;
+      b.setAttribute("aria-pressed", String(on)); b.lastChild.textContent = on ? "Saved" : "Save";
+    });
+    $("#saved-n").textContent = saved.length;
+  }
+  function onCard(e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var act = b.getAttribute("data-act"), art = b.closest(".job"), id = art && art.getAttribute("data-id");
+    if (act === "clear") return clearFilters();
+    if (act === "all") return setView("all");
+    if (act === "broaden-hrs") { prof.maxHrs += 5; touched(); syncFields(); return; }
+    if (act === "broaden-arr") { prof.arr = "Any"; touched(); syncFields(); return; }
+    if (act === "broaden-cat") { prof.cats = []; touched(); syncFields(); return; }
+    if (act === "alert-on") { alertOn = true; store.set("muoh-alert2", true); updateAlert(); return; }
+    if (!art) return;
+    if (act === "save") {
+      var i = saved.indexOf(id); if (i > -1) saved.splice(i, 1); else saved.push(id);
+      store.set("muoh-saved", saved);
+      if (st.view === "saved" && art.parentNode.id === "list") renderBrowse(); else syncSaved();
+    } else if (act === "details" || act === "report") {
+      var p = art.querySelector('[data-p="' + act + '"]'), open = p.hidden; p.hidden = !open; b.setAttribute("aria-expanded", String(open));
+    } else if (act === "send-report") {
+      if (reported.indexOf(id) < 0) reported.push(id);
+      store.set("muoh-reported", reported); renderMatches(); renderBrowse();
+    }
+  }
+  $("#mlist").addEventListener("click", onCard); $("#list").addEventListener("click", onCard);
+
+  function setView(v) {
+    st.view = v; $("#tab-all").setAttribute("aria-selected", String(v === "all")); $("#tab-saved").setAttribute("aria-selected", String(v === "saved")); renderBrowse();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (t) { t.addEventListener("click", function () { setView(t.getAttribute("data-v")); }); });
+  function bindChips(sel, key) {
+    $(sel).addEventListener("click", function (e) {
+      var c = e.target.closest(".chip"); if (!c) return;
+      var k = c.getAttribute("data-k"), i = st[key].indexOf(k); if (i > -1) st[key].splice(i, 1); else st[key].push(k);
+      c.setAttribute("aria-pressed", String(i < 0)); renderBrowse();
+    });
+  }
+  bindChips("#day-chips", "days"); bindChips("#time-chips", "times"); bindChips("#arr-chips", "arr");
+  [["#q", "q", "input"], ["#cat", "cat", "change"], ["#loc", "loc", "change"], ["#dur", "dur", "change"], ["#sort", "sort", "change"]].forEach(function (a) { $(a[0]).addEventListener(a[2], function () { st[a[1]] = this.value; renderBrowse(); }); });
+  $("#flex").addEventListener("change", function () { st.flex = this.checked; renderBrowse(); });
+  $("#exam").addEventListener("change", function () { st.exam = this.checked; renderBrowse(); });
+  function clearFilters() {
+    st.q = st.cat = st.loc = st.dur = ""; st.days = []; st.times = []; st.arr = []; st.flex = st.exam = false;
+    ["#q", "#cat", "#loc", "#dur"].forEach(function (s) { $(s).value = ""; }); $("#flex").checked = $("#exam").checked = false;
+    Array.prototype.forEach.call(document.querySelectorAll("#filters .chip"), function (c) { c.setAttribute("aria-pressed", "false"); });
+    renderBrowse();
+  }
+  $("#clear").addEventListener("click", clearFilters);
+  if (window.innerWidth >= 900) $("#filters").open = true;
+
+  // ---------- employer form
+  var DOPT = DS.map(function (d, i) { return '<option value="' + i + '">' + DN[i] + "</option>"; }).join("");
+  function addShift() {
+    var row = document.createElement("div"); row.className = "shift";
+    row.innerHTML = '<select class="s-d" aria-label="Day">' + DOPT + '</select><input type="time" class="s-s" aria-label="Start time" value="09:00"><input type="time" class="s-e" aria-label="End time" value="13:00"><button type="button" class="linkbtn s-x">Remove</button>';
+    $("#e-shifts").appendChild(row); shiftTotal();
+  }
+  function shifts() {
+    return Array.prototype.map.call(document.querySelectorAll("#e-shifts .shift"), function (r) { return [+r.querySelector(".s-d").value, r.querySelector(".s-s").value, r.querySelector(".s-e").value]; }).filter(function (s) { return s[1] && s[2] && s[1] !== s[2]; });
+  }
+  function shiftTotal() { var t = shifts().reduce(function (a, s) { return a + shiftLen(s); }, 0); $("#e-total").textContent = t ? "Shifts add up to " + fmtH(t) + " a week. Shifts that end after midnight are counted correctly." : ""; return t; }
+  $("#e-add").addEventListener("click", addShift);
+  $("#e-shifts").addEventListener("click", function (e) { if (e.target.classList.contains("s-x")) { var rows = document.querySelectorAll("#e-shifts .shift"); if (rows.length > 1) e.target.closest(".shift").remove(); shiftTotal(); } });
+  $("#e-shifts").addEventListener("input", shiftTotal);
+  $("#e-flex").addEventListener("change", function () {
+    var f = this.value === "Flexible";
+    $("#e-shift-l").textContent = f ? "Hours when work may be done" : "Shift times"; $("#e-minw").hidden = !f;
+  });
+  addShift();
+  function checked(sel) { return Array.prototype.map.call(document.querySelectorAll(sel + " input:checked"), function (i) { return i.value; }); }
+  $("#emp-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var err = $("#e-err"), sum = $("#e-sum"); err.textContent = ""; sum.hidden = true;
+    var req = ["#e-title", "#e-name", "#e-cat", "#e-arr", "#e-loc", "#e-desc", "#e-flex", "#e-hrs", "#e-dur", "#e-basis", "#e-dead", "#e-dt", "#e-meth", "#e-contact"];
+    var missing = req.filter(function (s) { return !$(s).value.trim(); });
+    if (missing.length) { err.textContent = "Please fill in every field marked with a star."; $(missing[0]).focus(); return; }
+    var sh = shifts(); if (!sh.length) { err.textContent = "Add at least one shift with different start and end times."; return; }
+    var total = shiftTotal(), hrs = parseFloat($("#e-hrs").value), flex = $("#e-flex").value;
+    if (flex === "Fixed" && Math.abs(total - hrs) > 0.01) { err.textContent = "Your shifts add up to " + fmtH(total) + " but you entered " + hrs + " hours a week. Make them match."; $("#e-hrs").focus(); return; }
+    if (flex === "Flexible" && !$("#e-min").value) { err.textContent = "A flexible job must state its minimum hours per week."; $("#e-min").focus(); return; }
+    if ($("#e-basis").value !== "not stated yet" && !$("#e-pay").value) { err.textContent = "Enter the pay amount, or choose \"not stated yet\" as the payment basis."; $("#e-pay").focus(); return; }
+    if (!$("#e-ok").checked) { err.textContent = "Please confirm that this is a genuine vacancy with no fees for students."; $("#e-ok").focus(); return; }
+    var skills = checked("#e-skills");
+    var lines = ["Job title: " + $("#e-title").value.trim(), "Employer: " + $("#e-name").value.trim(), "Job category: " + $("#e-cat").value, "Work arrangement: " + $("#e-arr").value, "Work location: " + $("#e-loc").value.trim(),
+      "Description: " + $("#e-desc").value.trim(), "Schedule flexibility: " + flex, (flex === "Flexible" ? "Permitted work hours: " : "Shifts: ") + sh.map(function (s) { return DS[s[0]] + " " + s[1] + " to " + s[2]; }).join("; "),
+      "Hours per week: " + hrs + (flex === "Flexible" ? " (minimum " + $("#e-min").value + ")" : ""), "Deadlines: " + ($("#e-dl").value.trim() || "None stated"), "Required skills: " + (skills.length ? skills.join(", ") : "None"),
+      "Employment period: " + $("#e-dur").value + ($("#e-start").value ? ", from " + $("#e-start").value : "") + ($("#e-end").value ? " to " + $("#e-end").value : ""),
+      "Pay: " + ($("#e-basis").value === "not stated yet" ? "Not stated yet" : "ZMW " + $("#e-pay").value + " " + $("#e-basis").value), "Works around lectures and exams: " + ($("#e-exam").checked ? "Yes" : "No"),
+      "Application deadline: " + $("#e-dead").value + " " + $("#e-dt").value, "Application method: " + $("#e-meth").value + " (" + $("#e-contact").value.trim() + ")", "Verification status: Pending"];
+    $("#e-pre").textContent = lines.join("\n"); $("#e-copied").textContent = ""; sum.hidden = false; sum.scrollIntoView({ block: "nearest" });
+  });
+  $("#e-copy").addEventListener("click", function () {
+    var t = $("#e-pre").textContent, msg = $("#e-copied");
+    function fb() { var r = document.createRange(); r.selectNodeContents($("#e-pre")); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); msg.textContent = "Text selected. Press copy on your device."; }
+    try { navigator.clipboard.writeText(t).then(function () { msg.textContent = "Copied."; }, fb); } catch (x) { fb(); }
+  });
+
+  // ---------- boot
+  buildDays(); syncFields(); syncDays(); renderMatches(); renderBrowse();
+})();
+</script>
+
+</body></html>
